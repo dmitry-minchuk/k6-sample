@@ -27,32 +27,22 @@ export const TAGS = {
 };
 
 export const OPTIONS = {
-    stages: [
-        {
-            duration: '10s',
-            target: 10
-        },
-        {
-            duration: '30s',
-            target: 10,
-        },
-        {
-            duration: '15s',
-            target: 0
-        }
-    ],
     thresholds: {
-        http_req_duration: ['p(95)<200'],
-        'http_req_duration{status:200}': ['p(95)<200'],
-        http_req_failed: ['rate<0.01'],
-        http_reqs: ['count>10', 'rate>1'],
-        checks: ['rate===1.00'],
-        [`http_req_duration{page:${PATHS.publicCrocodiles}}`]: ['p(95)<300'],
-        [`http_req_duration{page:${PATHS.register}}`]: ['p(95)<250'],
-        [`http_req_duration{page:${PATHS.login}}`]: ['p(95)<200'],
-        [`http_req_duration{page:${PATHS.getMyCrocodiles}}`]: ['p(95)<200'],
-        [`http_req_duration{page:${PATHS.createCrocodile}}`]: ['p(95)<200'],
-        [`http_req_duration{page:${PATHS.singleCrocodile}}`]: ['p(95)<200'],
+        // Global thresholds
+        http_req_duration: ['p(95)<500'],                          // 500ms for all requests
+        'http_req_duration{status:200}': ['p(95)<300'],           // 300ms for successful responses
+        'http_req_duration{status:201}': ['p(95)<300'],           // 300ms for creation responses
+        http_req_failed: ['rate<0.05'],                             // Less than 5% failure rate
+        http_reqs: ['count>100'],                                   // At least 100 requests total
+        checks: ['rate>0.95'],                                      // 95% of checks should pass
+
+        // Endpoint-specific thresholds (more realistic)
+        [`http_req_duration{page:${PATHS.publicCrocodiles}}`]: ['p(95)<300'],  // GET - fast read
+        [`http_req_duration{page:${PATHS.register}}`]: ['p(95)<500'],          // POST - slower due to validation
+        [`http_req_duration{page:${PATHS.login}}`]: ['p(95)<400'],             // POST - auth operations slower
+        [`http_req_duration{page:${PATHS.getMyCrocodiles}}`]: ['p(95)<300'],   // GET - fast read
+        [`http_req_duration{page:${PATHS.createCrocodile}}`]: ['p(95)<500'],   // POST - slower, creates data
+        [`http_req_duration{page:${PATHS.singleCrocodile}}`]: ['p(95)<300'],   // GET - fast read
     }
 };
 

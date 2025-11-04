@@ -1,4 +1,10 @@
-import { OPTIONS } from './config.js';
+import {
+    PROFILE_NORMAL,
+    PROFILE_SPIKE,
+    PROFILE_STRESS,
+    PROFILE_SMOKE,
+    PROFILE_ENDURANCE
+} from './config-profiles.js';
 import { getPublicCrocodiles } from './api/getPublicCrocodiles.js';
 import { registerUser } from './api/registerUser.js';
 import { loginUser } from './api/loginUser.js';
@@ -9,7 +15,16 @@ import { UserGenerator } from './helpers/UserGenerator.js';
 import { WaitUtil } from './helpers/WaitUtil.js';
 import { ResponseValidator } from './helpers/ResponseValidator.js';
 
-export const options = OPTIONS;
+const profile = __ENV.PROFILE || 'normal';
+const profileMap = {
+    'normal': PROFILE_NORMAL,
+    'spike': PROFILE_SPIKE,
+    'stress': PROFILE_STRESS,
+    'smoke': PROFILE_SMOKE,
+    'endurance': PROFILE_ENDURANCE
+};
+
+export const options = profileMap[profile] || PROFILE_NORMAL;
 
 export default function() {
     // Get public crocodiles
