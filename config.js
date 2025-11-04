@@ -2,25 +2,27 @@ export const BASE_URL = 'http://localhost:8000';
 
 // Пути API
 const PATHS = {
-    publicCrocodiles: '/public/crocodiles/',
-    register: '/user/register/',
-    login: '/auth/token/login/',
-    myCrocodiles: '/my/crocodiles/',
-    singleCrocodile: '/my/crocodiles/id',
+    publicCrocodiles: 'GET_/public/crocodiles/',
+    register: 'POST_/user/register/',
+    login: 'POST_/auth/token/login/',
+    getMyCrocodiles: 'GET_/my/crocodiles/',
+    createCrocodile: 'POST_/my/crocodiles/',
+    singleCrocodile: 'GET_/my/crocodiles/id',
 };
 
 export const ENDPOINTS = {
-    crocodiles: PATHS.publicCrocodiles,
-    register: PATHS.register,
-    login: PATHS.login,
-    myCrocodiles: PATHS.myCrocodiles,
+    crocodiles: '/public/crocodiles/',
+    register: '/user/register/',
+    login: '/auth/token/login/',
+    myCrocodiles: '/my/crocodiles/',
 };
 
 export const TAGS = {
     crocodiles: { page: PATHS.publicCrocodiles },
     register: { page: PATHS.register },
     login: { page: PATHS.login },
-    myCrocodiles: { page: PATHS.myCrocodiles },
+    getMyCrocodiles: { page: PATHS.getMyCrocodiles },
+    createCrocodile: { page: PATHS.createCrocodile },
     singleCrocodile: { page: PATHS.singleCrocodile },
 };
 
@@ -48,6 +50,8 @@ export const OPTIONS = {
         [`http_req_duration{page:${PATHS.publicCrocodiles}}`]: ['p(95)<300'],
         [`http_req_duration{page:${PATHS.register}}`]: ['p(95)<250'],
         [`http_req_duration{page:${PATHS.login}}`]: ['p(95)<200'],
+        [`http_req_duration{page:${PATHS.getMyCrocodiles}}`]: ['p(95)<200'],
+        [`http_req_duration{page:${PATHS.createCrocodile}}`]: ['p(95)<200'],
         [`http_req_duration{page:${PATHS.singleCrocodile}}`]: ['p(95)<200'],
     }
 };

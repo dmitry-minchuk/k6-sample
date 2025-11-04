@@ -6,7 +6,7 @@ export function getMyCrocodiles(token) {
         headers: {
             Authorization: "Bearer " + token
         },
-        tags: TAGS.myCrocodiles
+        tags: TAGS.getMyCrocodiles
     };
 
     return http.get(`${BASE_URL}${ENDPOINTS.myCrocodiles}`, params);

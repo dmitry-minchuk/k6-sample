@@ -19,7 +19,7 @@ export function createCrocodile(token) {
         headers: {
             Authorization: "Bearer " + token
         },
-        tags: TAGS.myCrocodiles
+        tags: TAGS.createCrocodile
     };
 
     return http.post(`${BASE_URL}${ENDPOINTS.myCrocodiles}`, body, params);
