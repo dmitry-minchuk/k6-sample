@@ -36,15 +36,37 @@ Configure your settings in `config.js`.
 
 ## Running Tests
 
-Execute the load tests:
+### Smoke test (quick check):
 ```bash
-k6 run test.js
+k6 run --out influxdb=http://localhost:8086/k6 -e PROFILE=smoke test.js
 ```
 
-With InfluxDB and Grafana metrics export:
+### Normal load test:
 ```bash
-k6 run test.js --out influxdb=http://localhost:8086/k6
+k6 run --out influxdb=http://localhost:8086/k6 -e PROFILE=normal test.js
 ```
+
+### Spike test (sudden traffic spike):
+```bash
+k6 run --out influxdb=http://localhost:8086/k6 -e PROFILE=spike test.js
+```
+
+### Stress test (high constant load):
+```bash
+k6 run --out influxdb=http://localhost:8086/k6 -e PROFILE=stress test.js
+```
+
+### Endurance test (moderate load for extended period):
+```bash
+k6 run --out influxdb=http://localhost:8086/k6 -e PROFILE=endurance test.js
+```
+
+### Available load profiles:
+- `smoke` - 2 VUs for 30s (quick sanity check)
+- `normal` - 10 VUs with ramp-up/ramp-down (default)
+- `spike` - 10→50 VUs spike (test traffic spikes)
+- `stress` - 50→100 VUs (high load testing)
+- `endurance` - 20 VUs for 5 minutes (soak testing)
 
 ## Grafana Setup
 
