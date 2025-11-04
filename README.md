@@ -41,6 +41,27 @@ Execute the load tests:
 k6 run test.js
 ```
 
+With InfluxDB and Grafana metrics export:
+```bash
+k6 run test.js --out influxdb=http://localhost:8086/k6
+```
+
+## Grafana Setup
+
+Start InfluxDB and Grafana using Docker Compose:
+```bash
+cd grafana
+docker-compose up -d
+```
+
+Access Grafana at `http://localhost:3000`
+
+Login credentials:
+- Username: `admin`
+- Password: `admin`
+
+The dashboard will be automatically provisioned and available immediately after startup.
+
 ## Configuration
 
 Update `config.js` with your API endpoint and test parameters.
@@ -50,6 +71,7 @@ Update `config.js` with your API endpoint and test parameters.
 - k6
 - Node.js
 - npm
+- Docker and Docker Compose (for Grafana and InfluxDB)
 
 ## License
 
