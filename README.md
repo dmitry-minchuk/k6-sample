@@ -84,6 +84,24 @@ Login credentials:
 
 The dashboard will be automatically provisioned and available immediately after startup.
 
+## Jenkins CI/CD Pipeline
+
+A sample `Jenkinsfile` is included for distributed load testing across multiple Jenkins slave nodes.
+
+### Features:
+- Runs load tests in parallel on up to 5 slave nodes
+- Configurable load profile (smoke, normal, spike, stress, endurance)
+- Metrics aggregation to single InfluxDB instance
+- Parameterized Jenkins job
+
+### Usage:
+1. Update slave node labels and IPs in Jenkinsfile (`slave-1` through `slave-5`)
+2. Update InfluxDB URL (currently `http://100.200.100.200:8086/k6`)
+3. Create Jenkins job from this repository
+4. Run with desired profile parameter
+
+Note: This is a template example. Adjust node labels, IPs, and InfluxDB endpoint for your environment.
+
 ## Configuration
 
 Update `config.js` with your API endpoint and test parameters.
