@@ -68,6 +68,17 @@ export class ResponseValidator {
     }
 
     static validateRegisterResponse(response) {
+        // Handle specific error cases
+        if (response.status === 409) {
+            throw new Error('User already exists');
+        }
+        if (response.status === 404) {
+            throw new Error('Register endpoint not found');
+        }
+        if (response.status !== 201) {
+            throw new Error(`Register failed with status ${response.status}`);
+        }
+
         return check(response, {
             'register - status is 201': r => r.status === 201,
             'register - response is valid JSON': r => {

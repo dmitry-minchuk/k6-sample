@@ -36,10 +36,6 @@ export default function() {
     const user = UserGenerator.generateUser();
     const registerRes = registerUser(user.username, user.email, user.password, user.firstName, user.lastName);
     ResponseValidator.validateRegisterResponse(registerRes);
-
-    if (registerRes.status !== 201) {
-        throw new Error(`User registration failed with status ${registerRes.status}: ${registerRes.body}`);
-    }
     WaitUtil.randomWaitDefault();
 
     // Login user

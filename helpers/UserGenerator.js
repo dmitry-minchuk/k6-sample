@@ -7,7 +7,10 @@ export class UserGenerator {
     }
 
     static generateEmail() {
-        return randomString(8).toLowerCase() + '@' + randomString(6).toLowerCase() + '.com';
+        // Generate valid email format: username+timestamp@domain.com
+        const username = 'test_' + randomString(8).toLowerCase();
+        const domain = 'test' + randomIntBetween(1, 10000);
+        return `${username}+${Date.now()}@${domain}.local`;
     }
 
     static generatePassword() {
