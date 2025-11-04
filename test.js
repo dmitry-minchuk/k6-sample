@@ -7,33 +7,65 @@ import { createCrocodile } from './api/createCrocodile.js';
 import { getSingleCrocodile } from './api/getSingleCrocodile.js';
 import { UserGenerator } from './helpers/UserGenerator.js';
 import { WaitUtil } from './helpers/WaitUtil.js';
+import { ResponseValidator } from './helpers/ResponseValidator.js';
 
 export const options = OPTIONS;
 
 export default function() {
-    // Just test /get
-    getPublicCrocodiles();
+    // Get public crocodiles
+    const publicCrocsRes = getPublicCrocodiles();
+    ResponseValidator.validateCrocodileListResponse(publicCrocsRes, 'get public crocodiles');
     WaitUtil.randomWaitDefault();
 
-    // Testing user registration endpoint
+    // Register new user
     const user = UserGenerator.generateUser();
-    registerUser(user.username, user.email, user.password, user.firstName, user.lastName);
+    const registerRes = registerUser(user.username, user.email, user.password, user.firstName, user.lastName);
+    ResponseValidator.validateRegisterResponse(registerRes);
+
+    if (registerRes.status !== 201) {
+        throw new Error(`User registration failed with status ${registerRes.status}: ${registerRes.body}`);
+    }
     WaitUtil.randomWaitDefault();
 
-    // Testing login
+    // Login user
     const loginRes = loginUser(user.username, user.password);
+    ResponseValidator.validateLoginResponse(loginRes);
+
+    if (loginRes.status !== 200) {
+        throw new Error(`Login failed with status ${loginRes.status}: ${loginRes.body}`);
+    }
+
     const token = loginRes.json().access;
-
-    // Getting authorised crocodiles
-    getMyCrocodiles(token);
+    if (!token) {
+        throw new Error('Login successful but no token received');
+    }
     WaitUtil.randomWaitDefault();
 
-    // Creating crocodile
+    // Get user's crocodiles
+    const myCrocsRes = getMyCrocodiles(token);
+    ResponseValidator.validateCrocodileListResponse(myCrocsRes, 'get my crocodiles');
+    WaitUtil.randomWaitDefault();
+
+    // Create new crocodile
     const createRes = createCrocodile(token);
+    ResponseValidator.validateCrocodileCreateResponse(createRes);
+
+    if (createRes.status !== 201) {
+        throw new Error(`Crocodile creation failed with status ${createRes.status}: ${createRes.body}`);
+    }
+
     const crocodileId = createRes.json().id;
+    if (!crocodileId) {
+        throw new Error('Crocodile created but no ID received');
+    }
     WaitUtil.randomWaitDefault();
 
-    // Get croc by Id
-    getSingleCrocodile(token, crocodileId);
+    // Get single crocodile by ID
+    const singleCrocRes = getSingleCrocodile(token, crocodileId);
+    ResponseValidator.validateCrocodileSingleResponse(singleCrocRes);
+
+    if (singleCrocRes.status !== 200) {
+        throw new Error(`Get single crocodile failed with status ${singleCrocRes.status}: ${singleCrocRes.body}`);
+    }
     WaitUtil.randomWaitDefault();
 }
