@@ -1,0 +1,31 @@
+services:
+  influxdb:
+    platform: linux/amd64
+    image: influxdb:1.8-alpine
+    container_name: k6-influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_DB=k6
+      - INFLUXDB_HTTP_MAX_BODY_SIZE=0
+    volumes:
+      - influxdb-data:/var/lib/influxdb
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: k6-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./provisioning/datasources:/etc/grafana/provisioning/datasources  # ← ИЗМЕНЕНО
+      - ./provisioning/dashboards:/etc/grafana/provisioning/dashboards    # ← ИЗМЕНЕНО
+    depends_on:
+      - influxdb
+
+volumes:
+  influxdb-data:
+  grafana-data:
