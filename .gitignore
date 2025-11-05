@@ -26,6 +26,9 @@ build/
 logs/
 *.log
 
+# K6 Reports
+k6-report.html
+
 # IDE
 .VS
 .VSCode

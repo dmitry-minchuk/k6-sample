@@ -68,6 +68,16 @@ k6 run --out influxdb=http://localhost:8086/k6 -e PROFILE=endurance test.js
 - `stress` - 50→100 VUs (high load testing)
 - `endurance` - 20 VUs for 5 minutes (soak testing)
 
+### HTML Report Generation
+
+Generate an interactive HTML report of your test results:
+
+```bash
+K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=k6-report.html k6 run --out influxdb=http://localhost:8086/k6 -e PROFILE=normal test.js
+```
+
+This will create a `k6-report.html` file with detailed test metrics and visualizations that you can open in any web browser.
+
 ## Grafana Setup
 
 Start InfluxDB and Grafana using Docker Compose:
