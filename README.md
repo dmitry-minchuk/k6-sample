@@ -34,6 +34,30 @@ npm install
 
 Configure your settings in `config.js`.
 
+### Local Test API Setup
+
+The k6 public test API (test-api.k6.io) has been retired. To run this project, you need to set up the test API locally using Docker:
+
+1. Download and install Docker Desktop.
+
+2. Extract the `k6-test-api.zip` file included in this project.
+
+3. Open a terminal inside the extracted directory.
+
+4. Start the API (may take 5 minutes on first run):
+```bash
+docker compose up -d
+```
+
+5. Verify the API is running at `http://localhost:8000/`
+
+6. Update `config.js` to use `http://localhost:8000/` instead of `https://test-api.k6.io/`
+
+7. To stop the API:
+```bash
+docker compose down
+```
+
 ## Running Tests
 
 ### Smoke test (quick check):
