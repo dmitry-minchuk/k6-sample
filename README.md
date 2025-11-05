@@ -40,7 +40,7 @@ The k6 public test API (test-api.k6.io) has been retired. To run this project, y
 
 1. Download and install Docker Desktop.
 
-2. Extract the `k6-test-api.zip` file included in this project.
+2. Extract the `my-k6-sample/test-app/test-api.k6.io-0.0.5.zip` file included in this project.
 
 3. Open a terminal inside the extracted directory.
 
